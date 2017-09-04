@@ -1,8 +1,8 @@
 "use strict";
-var APP_ID = undefined;  // TODO replace with your app ID (OPTIONAL).
+var APP_ID = "amzn1.ask.skill.a4d8d16a-5e21-4672-bcc7-47165154b443";  // TODO replace with your app ID (OPTIONAL).
 
 var ANSWER_COUNT = 4; // The number of possible answers per trivia question.
-var GAME_LENGTH = 5;  // The number of questions per trivia game.
+var GAME_LENGTH = 4;  // The number of questions per trivia game.
 var GAME_STATES = {
     TRIVIA: "_TRIVIAMODE", // Asking trivia questions.
     START: "_STARTMODE", // Entry point, start the game.
@@ -18,23 +18,22 @@ var languageString = {
     "en": {
         "translation": {
             "QUESTIONS" : questions["QUESTIONS_EN_US"],
-            "GAME_NAME" : "Reindeer Trivia", // Be sure to change this for your skill.
-            "HELP_MESSAGE": "I will ask you %s multiple choice questions. Respond with the number of the answer. " +
-            "For example, say one, two, three, or four. To start a new game at any time, say, start game. ",
-            "REPEAT_QUESTION_MESSAGE": "To repeat the last question, say, repeat. ",
+            "GAME_NAME" : "Drink Drink Hooray", // Be sure to change this for your skill.
+            "HELP_MESSAGE": "Alright, neanderthals. Grab a drink. Settle in. Get ready to get your socks blown. Gather your friends or hire ones and let's begin. You will be asked %s questions. First to answer will be judged. If you are correct, you will be given the power to command another to drink. If you fail, which you will most doubtedly, you will be forced to drink.",
+            "REPEAT_QUESTION_MESSAGE": "To repeat the last question because you were to busy lost in the mediocracy of your life, say, repeat. ",
             "ASK_MESSAGE_START": "Would you like to start playing?",
-            "HELP_REPROMPT": "To give an answer to a question, respond with the number of the answer. ",
-            "STOP_MESSAGE": "Would you like to keep playing?",
+            "HELP_REPROMPT": "To give an answer to a question, respond with the number of the answer. It's not that hard! ",
+            "STOP_MESSAGE": "I knew you couldn't handle this. Do you want to quit?",
             "CANCEL_MESSAGE": "Ok, let\'s play again soon.",
-            "NO_MESSAGE": "Ok, we\'ll play another time. Goodbye!",
+            "NO_MESSAGE": "I can't believe you are ghosting me. Bye.",
             "TRIVIA_UNHANDLED": "Try saying a number between 1 and %s",
             "HELP_UNHANDLED": "Say yes to continue, or no to end the game.",
             "START_UNHANDLED": "Say start to start a new game.",
             "NEW_GAME_MESSAGE": "Welcome to %s. ",
-            "WELCOME_MESSAGE": "I will ask you %s questions, try to get as many right as you can. " +
-            "Just say the number of the answer. Let\'s begin. ",
-            "ANSWER_CORRECT_MESSAGE": "correct. ",
-            "ANSWER_WRONG_MESSAGE": "wrong. ",
+            "WELCOME_MESSAGE": "I will ask you %s questions, get your drinks ready and try to get as many right as you can. " +
+            "Just say the number of the answer. Let\'s rumble' ",
+            "ANSWER_CORRECT_MESSAGE": "Correct, pass the sentence.",
+            "ANSWER_WRONG_MESSAGE": "Wrong. Finish your drink. ",
             "CORRECT_ANSWER_MESSAGE": "The correct answer is %s: %s. ",
             "ANSWER_IS_MESSAGE": "That answer is ",
             "TELL_QUESTION_MESSAGE": "Question %s. %s ",
@@ -45,40 +44,7 @@ var languageString = {
     "en-US": {
         "translation": {
             "QUESTIONS" : questions["QUESTIONS_EN_US"],
-            "GAME_NAME" : "American Reindeer Trivia" // Be sure to change this for your skill.
-        }
-    },
-    "en-GB": {
-        "translation": {
-            "QUESTIONS" : questions["QUESTIONS_EN_GB"],
-            "GAME_NAME" : "British Reindeer Trivia" // Be sure to change this for your skill.
-        }
-    },
-    "de": {
-        "translation": {
-            "QUESTIONS" : questions["QUESTIONS_DE_DE"],
-            "GAME_NAME" : "Wissenswertes über Rentiere in Deutsch", // Be sure to change this for your skill.
-            "HELP_MESSAGE": "Ich stelle dir %s Multiple-Choice-Fragen. Antworte mit der Zahl, die zur richtigen Antwort gehört. " +
-            "Sage beispielsweise eins, zwei, drei oder vier. Du kannst jederzeit ein neues Spiel beginnen, sage einfach „Spiel starten“. ",
-            "REPEAT_QUESTION_MESSAGE": "Wenn die letzte Frage wiederholt werden soll, sage „Wiederholen“ ",
-            "ASK_MESSAGE_START": "Möchten Sie beginnen?",
-            "HELP_REPROMPT": "Wenn du eine Frage beantworten willst, antworte mit der Zahl, die zur richtigen Antwort gehört. ",
-            "STOP_MESSAGE": "Möchtest du weiterspielen?",
-            "CANCEL_MESSAGE": "OK, dann lass uns bald mal wieder spielen.",
-            "NO_MESSAGE": "OK, spielen wir ein andermal. Auf Wiedersehen!",
-            "TRIVIA_UNHANDLED": "Sagt eine Zahl beispielsweise zwischen 1 und %s",
-            "HELP_UNHANDLED": "Sage ja, um fortzufahren, oder nein, um das Spiel zu beenden.",
-            "START_UNHANDLED": "Du kannst jederzeit ein neues Spiel beginnen, sage einfach „Spiel starten“.",
-            "NEW_GAME_MESSAGE": "Willkommen bei %s. ",
-            "WELCOME_MESSAGE": "Ich stelle dir %s Fragen und du versuchst, so viele wie möglich richtig zu beantworten. " +
-            "Sage einfach die Zahl, die zur richtigen Antwort passt. Fangen wir an. ",
-            "ANSWER_CORRECT_MESSAGE": "Richtig. ",
-            "ANSWER_WRONG_MESSAGE": "Falsch. ",
-            "CORRECT_ANSWER_MESSAGE": "Die richtige Antwort ist %s: %s. ",
-            "ANSWER_IS_MESSAGE": "Diese Antwort ist ",
-            "TELL_QUESTION_MESSAGE": "Frage %s. %s ",
-            "GAME_OVER_MESSAGE": "Du hast %s von %s richtig beantwortet. Danke fürs Mitspielen!",
-            "SCORE_IS_MESSAGE": "Dein Ergebnis ist %s. "
+            "GAME_NAME" : "Drink, Drink, Hooray" // Be sure to change this for your skill.
         }
     }
 };
@@ -118,7 +84,7 @@ var startStateHandlers = Alexa.CreateStateHandler(GAME_STATES.START, {
     "StartGame": function (newGame) {
         var speechOutput = newGame ? this.t("NEW_GAME_MESSAGE", this.t("GAME_NAME")) + this.t("WELCOME_MESSAGE", GAME_LENGTH.toString()) : "";
         // Select GAME_LENGTH questions for the game
-        var translatedQuestions = this.t("QUESTIONS");
+        var translatedQuestions = this.t("QUESTIONS", {keySeparator: '#'});
         var gameQuestions = populateGameQuestions(translatedQuestions);
         // Generate a random index for the correct answer, from 0 to 3
         var correctAnswerIndex = Math.floor(Math.random() * (ANSWER_COUNT));
@@ -327,9 +293,7 @@ function populateRoundAnswers(gameQuestionIndexes, correctAnswerIndex, correctAn
     var answersCopy = translatedQuestions[gameQuestionIndexes[correctAnswerIndex]][Object.keys(translatedQuestions[gameQuestionIndexes[correctAnswerIndex]])[0]].slice();
     var index = answersCopy.length;
 
-    if (index < ANSWER_COUNT) {
-        throw new Error("Not enough answers for question.");
-    }
+
 
     // Shuffle the answers, excluding the first element which is the correct answer.
     for (var j = 1; j < answersCopy.length; j++){
